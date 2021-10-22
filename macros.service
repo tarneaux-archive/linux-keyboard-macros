@@ -1,0 +1,9 @@
+Description=
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/max/.tmuxwindows/startmacros.sh
+
+[Install]
+WantedBy=graphical.target

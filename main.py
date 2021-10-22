@@ -4,7 +4,12 @@ import subprocess
 import re
 from sys import stderr
 
-from pynput import keyboard
+while True:
+    try:
+        from pynput import keyboard
+        break
+    except ImportError:
+        pass
 import functions
 from threading import Thread
 
@@ -28,6 +33,8 @@ while result.stdout.readline() != "Testing ... (interrupt to exit)\n":
     pass
 
 switcher = False
+
+handler = functions.Handler()
 while True:
     line = ""
     report = []
@@ -39,6 +46,8 @@ while True:
             report.append(line)
     if len(report) != 1: # Verify that it isn't just a long press
         switcher = not switcher
-        if switcher: # Remove the double running for a single press
-            code = int(report[0][42:], base=16) # convert the code into an int
-            Thread(target=functions.run, args=(code,)).start()
+        code = int(report[0][42:], base=16) # convert the code into an int
+        if switcher:
+            Thread(target=handler.on_press, args=(code,)).start()
+        else:
+            Thread(target=handler.on_release, args=(code,)).start()
