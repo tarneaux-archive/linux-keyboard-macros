@@ -35,7 +35,7 @@ class Handler:
             458777: "tmux send-keys -t \"$pane\" C-z 'source ~/.p10k.zsh && clear' Enter"
         }
         self.minecraft_macros = {
-            458766: "!kill SassukeNew\n"
+            458766: "/kill"
         }
     
     def on_press(self, code):
